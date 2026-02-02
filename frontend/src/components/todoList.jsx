@@ -12,7 +12,10 @@ const TodoList = () => {
       const response = await taskService.fetchTasks();
       setTasks(response.data || []);
     } catch (error) {
-      console.error("Gagal memuat tugas:", error.message);
+      console.error(
+        "Gagal memuat tugas / periksa server BE anda dan pastikan sudah jalan",
+        error.message,
+      );
     }
   }, []);
 
@@ -93,7 +96,7 @@ const TodoList = () => {
         </div>
 
         {/* Input Section (Floating Action Style) */}
-        <div className="bg-white p-2 rounded-[2rem] shadow-xl shadow-blue-100/50 border border-slate-50 mb-8">
+        <div className="bg-white p-2 rounded-2rem shadow-xl shadow-blue-100/50 border border-slate-50 mb-8">
           <form onSubmit={handleAdd} className="flex items-center">
             <input
               className="flex-1 px-6 py-4 bg-transparent outline-none text-slate-700 placeholder:text-slate-400 font-medium"
