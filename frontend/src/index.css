@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+/* Opsi tambahan agar scrollbar daftar tugasmu cantik */
+/* @utility custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+  }
+} */

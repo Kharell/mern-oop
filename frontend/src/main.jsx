@@ -1,11 +1,13 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css"; 
-import TodoList from "./components/todoList"; 
+import { BrowserRouter } from "react-router-dom"; 
+import App from "./App";
+import "./index.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    {/* Kita langsung merender TodoList sebagai halaman utama */}
-    <TodoList />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </StrictMode>,
 );

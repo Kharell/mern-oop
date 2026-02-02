@@ -1,0 +1,5 @@
+Teknologi,Versi Stabil Terbaru,Catatan Penting
+
+React, 19.0.x, Mendukung fitur use API dan optimasi render yang lebih cerdas.
+Vite, 6.x, Menggunakan sistem bundling yang sangat cepat dan kompatibel penuh dengan Tailwind v4.
+Tailwind CSS, 4.x, "Versi terbaru yang ""Zero-Config"" dan sudah tidak memerlukan tailwind.config.js lagi." 
