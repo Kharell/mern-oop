@@ -52,7 +52,7 @@ class AuthController {
       // 3. Buat Token JWT (Tiket Masuk)
       const token = jwt.sign(
         { id: user._id },
-        process.env.JWT_SECRET, // Harusnya di file .env
+        process.env.JWT_SECRET, // file .env
         { expiresIn: "1d" },
       );
 
