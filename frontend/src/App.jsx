@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import TodoList from "./components/todoList";
+import Dashboard from "./components/Dashboard";
 
 const App = () => {
   return (
@@ -17,7 +18,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
 
         {/* 4. Rute Dashboard (TodoList) */}
-        <Route path="/dashboard" element={<TodoList />} />
+        <Route path="/dashboard" element={<Dashboard />} />
 
         {/* 5. Pelindung: Jika user ngetik asal di URL, arahkan ke Login */}
         <Route path="*" element={<Navigate to="/login" />} />
