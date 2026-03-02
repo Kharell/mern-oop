@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import authService from "../services/authService";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "./Sidebar"; // Import komponen baru
+import Sidebar from "./Sidebar";
 import TodoList from "./todoList";
 
 const Dashboard = () => {
@@ -16,13 +16,11 @@ const Dashboard = () => {
       navigate("/login");
       return;
     }
-    const dataAman = currentUser.user ? currentUser.user : currentUser;
-    setUser(dataAman);
+    setUser(currentUser.user || currentUser);
   }, [navigate]);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans">
-      {/* Gunakan komponen Sidebar di sini */}
+    <div className="flex h-screen bg-slate-50 overflow-hidden font-sans text-slate-900">
       <Sidebar
         activeMenu={activeMenu}
         setActiveMenu={setActiveMenu}
@@ -31,57 +29,77 @@ const Dashboard = () => {
         setIsSidebarOpen={setIsSidebarOpen}
       />
 
-      {/* MAIN CONTENT */}
-      <main className="flex-grow h-screen overflow-y-auto bg-[#f8fafc] p-4 md:p-12 pt-8 md:pt-12">
-        <div className="max-w-5xl mx-auto">
-          <header className="mb-10">
-            <h2 className="text-sm font-bold text-blue-600 uppercase tracking-widest mb-2">
-              Overview
+      {/* Content Area */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Top Header / "Mini Navbar" */}
+        <header className="h-20 flex items-center justify-between px-8 bg-white/80 backdrop-blur-md border-b border-slate-200 shrink-0 z-30">
+          <div className="flex items-center gap-4">
+            {/* Hamburger Button (Mobile Only) */}
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              className="p-2 bg-slate-100 rounded-lg md:hidden hover:bg-slate-200 transition">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+            <h2 className="text-xl font-bold tracking-tight text-slate-800 capitalize">
+              {activeMenu.replace("-", " ")}
             </h2>
-            <h1 className="text-4xl font-black text-slate-800 tracking-tight">
-              {activeMenu === "todo"
-                ? "Todo List"
-                : activeMenu === "notes"
-                  ? "Catatan Digital"
-                  : "Manajemen Keuangan"}
-            </h1>
-          </header>
+          </div>
 
-          <div className="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden mb-10">
-            <div className="p-4 md:p-10">
-              {activeMenu === "todo" && (
-                <div className="animate-in fade-in slide-in-from-top-2 duration-500">
-                  <TodoList />
-                </div>
-              )}
+          <div className="flex items-center gap-4 text-sm font-medium text-slate-500">
+            <span className="hidden sm:inline">
+              {new Date().toLocaleDateString("id-ID", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </span>
+            <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200">
+              🔔
+            </div>
+          </div>
+        </header>
 
+        {/* Scrollable Content Body */}
+        <main className="flex-1 overflow-y-auto p-6 md:p-10 custom-scrollbar">
+          <div className="max-w-5xl mx-auto">
+            <div className="bg-white rounded-[2.5rem] shadow-sm border border-slate-200/60 p-6 md:p-10">
+              {activeMenu === "todo" && <TodoList />}
               {activeMenu === "notes" && (
-                <div className="py-24 text-center animate-in zoom-in-95 duration-300">
-                  <div className="text-6xl mb-6">📝</div>
-                  <h3 className="text-2xl font-bold text-slate-800">
-                    Catatan Digital
+                <div className="text-center py-20">
+                  <span className="text-6xl">📝</span>
+                  <h3 className="mt-4 text-lg font-bold">
+                    Fitur Catatan Harian
                   </h3>
-                  <p className="text-slate-500 mt-2 max-w-sm mx-auto">
-                    Simpan ide harianmu di sini secara pribadi dan aman.
+                  <p className="text-slate-500">
+                    Segera hadir untuk manajemen ide Anda.
                   </p>
                 </div>
               )}
-
               {activeMenu === "finance" && (
-                <div className="py-24 text-center animate-in zoom-in-95 duration-300">
-                  <div className="text-6xl mb-6">💰</div>
-                  <h3 className="text-2xl font-bold text-slate-800">
-                    Manajemen Keuangan
-                  </h3>
-                  <p className="text-slate-500 mt-2 max-w-sm mx-auto">
-                    Pantau arus kas masuk dan keluar dengan pencatatan otomatis.
+                <div className="text-center py-20">
+                  <span className="text-6xl">💰</span>
+                  <h3 className="mt-4 text-lg font-bold">Manajemen Keuangan</h3>
+                  <p className="text-slate-500">
+                    Pantau arus kas Anda dengan mudah.
                   </p>
                 </div>
               )}
             </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 };
