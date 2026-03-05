@@ -1,5 +1,5 @@
 {
-  "name": "my-fullstack-app",
+  "name": "my-fullstack-app-mernoop",
   "version": "1.0.0",
   "scripts": {
     "server": "cd backand && npm run dev",
