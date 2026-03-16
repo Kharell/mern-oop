@@ -68,7 +68,7 @@ const Sidebar = ({
           <div className="relative group">
             <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
             <div className="relative w-11 h-11 bg-slate-800 rounded-xl flex items-center justify-center text-blue-400 font-black text-xl border border-slate-700">
-              P
+              K
             </div>
           </div>
           <div className="ml-4 flex flex-col">
@@ -76,7 +76,7 @@ const Sidebar = ({
               Personal<span className="text-blue-500">Hub</span>
             </span>
             <span className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em] mt-1">
-              Workspace
+              Workspace Pribadi
             </span>
           </div>
 

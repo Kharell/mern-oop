@@ -108,6 +108,10 @@ const Dashboard = () => {
                     <p className="text-slate-500 mt-2 max-w-sm mx-auto font-medium">
                       Fitur ini sedang dalam pengembangan untuk membantu Anda
                       menyimpan ide-ide kreatif.
+                      <br />
+                      <br />
+                      <br />
+                      COMING ZOON
                     </p>
                   </div>
                 )}
@@ -123,6 +127,10 @@ const Dashboard = () => {
                     <p className="text-slate-500 mt-2 max-w-sm mx-auto font-medium">
                       Lacak pengeluaran dan pemasukan Anda secara otomatis di
                       sini.
+                      <br />
+                      <br />
+                      <br />
+                      COMING ZOON
                     </p>
                   </div>
                 )}
