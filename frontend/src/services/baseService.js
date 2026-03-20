@@ -10,40 +10,52 @@ class BaseService {
     });
   }
 
-  // methods standard untuk menangani responss
+  // Method standard untuk GET
   async get(url) {
     try {
       const response = await this.http.get(url);
       return response.data;
     } catch (error) {
-      throw error.response ? error.response.data : error.message;
+      throw this.handleError(error);
     }
   }
 
+  // Method standard untuk POST
   async post(url, data) {
     try {
       const response = await this.http.post(url, data);
       return response.data;
     } catch (error) {
-      throw error.response ? error.response.data : error.message;
+      throw this.handleError(error);
     }
   }
 
+  // Method standard untuk PUT
+  async put(url, data) {
+    try {
+      const response = await this.http.put(url, data);
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  // Method standard untuk DELETE
   async delete(url) {
     try {
       const response = await this.http.delete(url);
       return response.data;
     } catch (error) {
-      throw error.response ? error.response.data : error.message;
+      throw this.handleError(error);
     }
   }
 
-  // Method hendeling error
+  // Method handling error (Sudah dirapikan agar konsisten)
   handleError(error) {
     if (error.response) {
       return error.response.data;
     } else if (error.request) {
-      return { massege: "Server tidak merespon" };
+      return { message: "Server tidak merespon" };
     } else {
       return { message: error.message };
     }
