@@ -1,74 +1,83 @@
 import React from "react";
 
-const TaskItem = React.memo(({ task, onDelete, onEdit }) => {
+const TaskItem = React.memo(({ task, onDelete, onEdit, onToggle }) => {
   return (
-    <div className="group flex items-center justify-between p-5 mb-3 bg-white border border-slate-100 rounded-[2rem] shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-1">
-      <div className="flex items-center gap-5">
-        {/* Indikator Status dengan efek Glow & Warna Dinamis */}
-        <div className="relative shrink-0">
+    <div className="group flex flex-col sm:flex-row sm:items-center justify-between p-4 md:p-5 mb-3 bg-white border border-slate-100 rounded-[1.5rem] md:rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300 gap-4">
+      {/* Status & Judul */}
+      <div className="flex items-center gap-4 flex-1 min-w-0">
+        <button
+          onClick={onToggle}
+          className="relative shrink-0 focus:outline-none">
           <div
-            className={`w-3 h-3 rounded-full ${task.completed ? "bg-emerald-500" : "bg-blue-500"}`}></div>
-          <div
-            className={`absolute inset-0 w-3 h-3 rounded-full animate-ping opacity-25 ${task.completed ? "bg-emerald-400" : "bg-blue-400"}`}></div>
-        </div>
+            className={`w-5 h-5 md:w-6 md:h-6 rounded-full border-2 transition-all flex items-center justify-center ${task.completed ? "bg-emerald-500 border-emerald-500 shadow-lg shadow-emerald-100" : "bg-white border-slate-200"}`}>
+            {task.completed && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-3 w-3 md:h-4 md:w-4 text-white"
+                viewBox="0 0 20 20"
+                fill="currentColor">
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            )}
+          </div>
+          {!task.completed && (
+            <div className="absolute inset-0 w-full h-full rounded-full animate-ping opacity-20 bg-blue-400"></div>
+          )}
+        </button>
 
-        {/* Teks Tugas */}
         <div className="flex flex-col overflow-hidden">
           <span
-            className={`font-bold tracking-tight transition-colors truncate ${
-              task.completed
-                ? "text-slate-400 line-through"
-                : "text-slate-800 group-hover:text-blue-600"
-            }`}>
+            className={`font-bold truncate text-sm md:text-base ${task.completed ? "text-slate-400 line-through" : "text-slate-800 group-hover:text-blue-600"}`}>
             {task.title || "Tugas tanpa judul"}
           </span>
-          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-0.5">
-            {task.completed ? "Selesai ✨" : "Sedang Berjalan"}
+          <span className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">
+            {task.completed ? "Selesai ✨" : "In Progress"}
           </span>
         </div>
       </div>
 
-      {/* Action Buttons Area */}
-      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0">
-        {/* Tombol EDIT - Warna Amber/Orange */}
+      {/* Actions - Auto-hidden on desktop, Full width on mobile */}
+      <div className="flex items-center gap-2 w-full sm:w-auto sm:opacity-0 sm:group-hover:opacity-100 transition-all sm:translate-x-4 sm:group-hover:translate-x-0">
         <button
           onClick={() => onEdit(task)}
-          className="flex items-center justify-center w-10 h-10 text-amber-500 bg-amber-50 hover:bg-amber-500 hover:text-white rounded-xl transition-all duration-200 shadow-sm border border-amber-100"
-          title="Edit Tugas">
+          className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 h-9 md:h-10 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-amber-600 bg-amber-50 hover:bg-amber-500 hover:text-white rounded-xl border border-amber-100 transition-all">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
+            className="h-3.5 w-3.5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={2}
+              strokeWidth={2.5}
               d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
             />
           </svg>
-          Edit
+          <span>Edit</span>
         </button>
 
-        {/* Tombol HAPUS - Warna Merah */}
         <button
           onClick={() => onDelete(task._id)}
-          className="flex items-center gap-2 px-4 h-10 text-xs font-black uppercase tracking-widest text-red-500 bg-red-50 hover:bg-red-500 hover:text-white rounded-xl transition-all duration-200 shadow-sm border border-red-100">
+          className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 h-9 md:h-10 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-red-600 bg-red-50 hover:bg-red-500 hover:text-white rounded-xl border border-red-100 transition-all">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
+            className="h-3.5 w-3.5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={2}
+              strokeWidth={2.5}
               d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
             />
           </svg>
-          Hapus
+          <span>Hapus</span>
         </button>
       </div>
     </div>
@@ -76,5 +85,4 @@ const TaskItem = React.memo(({ task, onDelete, onEdit }) => {
 });
 
 TaskItem.displayName = "TaskItem";
-
 export default TaskItem;
