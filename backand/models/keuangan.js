@@ -14,17 +14,17 @@ const KeuanganSchema = new mongoose.Schema(
     },
     tipe: {
       type: String,
-      enum: ["pemasukan", "pengeluaran"], // Memastikan hanya ada 2 opsi ini
+      enum: ["pemasukan", "pengeluaran"], 
       required: [true, "Tipe transaksi (pemasukan/pengeluaran) wajib diisi"],
     },
     kategori: {
       type: String,
-      default: "Lainnya", // Contoh: Makanan, Transportasi, Gaji
+      default: "Lainnya", 
       trim: true,
     },
     tanggal: {
       type: Date,
-      default: Date.now, // Tanggal transaksi terjadi
+      default: Date.now, 
     },
   },
   {

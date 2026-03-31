@@ -14,20 +14,20 @@ const CatatanHarianSchema = new mongoose.Schema(
     },
     tag: {
       type: String,
-      default: "Umum", // Contoh: Ide, Pekerjaan, Pribadi
+      default: "Umum", 
       trim: true,
     },
     warna: {
       type: String,
-      default: "#ffffff", // Bisa digunakan untuk sticky notes berwarna di UI
+      default: "#ffffff", 
     },
     pin: {
       type: Boolean,
-      default: false, // Untuk menyematkan catatan penting di paling atas
+      default: false, 
     },
   },
   {
-    timestamps: true, // Otomatis membuat createdAt dan updatedAt
+    timestamps: true, 
   },
 );
 
