@@ -1,6 +1,9 @@
 import React from "react";
 
 const TaskItem = React.memo(({ task, onDelete, onEdit, onToggle }) => {
+  // Alias: field database bernama "completed", dipakai lokal sebagai isCompleted
+  const { completed: isCompleted } = task;
+
   return (
     <div className="group flex flex-col sm:flex-row sm:items-center justify-between p-4 md:p-5 mb-3 bg-white border border-slate-100 rounded-[1.5rem] md:rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300 gap-4">
       {/* Status & Judul */}
@@ -9,8 +12,8 @@ const TaskItem = React.memo(({ task, onDelete, onEdit, onToggle }) => {
           onClick={onToggle}
           className="relative shrink-0 focus:outline-none">
           <div
-            className={`w-5 h-5 md:w-6 md:h-6 rounded-full border-2 transition-all flex items-center justify-center ${task.completed ? "bg-emerald-500 border-emerald-500 shadow-lg shadow-emerald-100" : "bg-white border-slate-200"}`}>
-            {task.completed && (
+            className={`w-5 h-5 md:w-6 md:h-6 rounded-full border-2 transition-all flex items-center justify-center ${isCompleted ? "bg-emerald-500 border-emerald-500 shadow-lg shadow-emerald-100" : "bg-white border-slate-200"}`}>
+            {isCompleted && (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-3 w-3 md:h-4 md:w-4 text-white"
@@ -24,18 +27,18 @@ const TaskItem = React.memo(({ task, onDelete, onEdit, onToggle }) => {
               </svg>
             )}
           </div>
-          {!task.completed && (
+          {!isCompleted && (
             <div className="absolute inset-0 w-full h-full rounded-full animate-ping opacity-20 bg-blue-400"></div>
           )}
         </button>
 
         <div className="flex flex-col overflow-hidden">
           <span
-            className={`font-bold truncate text-sm md:text-base ${task.completed ? "text-slate-400 line-through" : "text-slate-800 group-hover:text-blue-600"}`}>
+            className={`font-bold truncate text-sm md:text-base ${isCompleted ? "text-slate-400 line-through" : "text-slate-800 group-hover:text-blue-600"}`}>
             {task.title || "Tugas tanpa judul"}
           </span>
           <span className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">
-            {task.completed ? "Selesai ✨" : "In Progress"}
+            {isCompleted ? "Selesai ✨" : "In Progress"}
           </span>
         </div>
       </div>

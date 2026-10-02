@@ -14,17 +14,24 @@ const KeuanganSchema = new mongoose.Schema(
     },
     tipe: {
       type: String,
-      enum: ["pemasukan", "pengeluaran"], 
+      enum: ["pemasukan", "pengeluaran"],
       required: [true, "Tipe transaksi (pemasukan/pengeluaran) wajib diisi"],
     },
     kategori: {
       type: String,
-      default: "Lainnya", 
+      default: "Lainnya",
       trim: true,
     },
     tanggal: {
       type: Date,
-      default: Date.now, 
+      default: Date.now,
+    },
+    // relasi ke pemilik data keuangan
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
     },
   },
   {

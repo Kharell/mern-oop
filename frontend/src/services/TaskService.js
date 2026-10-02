@@ -1,8 +1,9 @@
-import BaseService from "./baseService";
+import BaseService from "./BaseService";
 
+// OOP concept: inheritance (TaskService mewarisi BaseService)
 class TaskService extends BaseService {
   constructor() {
-    // memanggil constructor BaseServices dengan URL default
+    // memanggil constructor BaseService dengan URL default
     super();
   }
 
@@ -14,7 +15,6 @@ class TaskService extends BaseService {
     return await this.post("/tasks", { title });
   }
 
-  
   async updateTask(id, updatedData) {
     return await this.put(`/tasks/${id}`, updatedData);
   }

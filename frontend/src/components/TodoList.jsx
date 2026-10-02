@@ -1,13 +1,35 @@
-import React, { useState, useEffect, useCallback } from "react";
-import taskService from "../services/taskService";
-import TaskItem from "./taskItem/taskItem";
+import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import taskService from "../services/TaskService";
+import authService from "../services/AuthService";
+import TaskItem from "./TaskItem";
 
 const TodoList = () => {
   const [tasks, setTasks] = useState([]);
   const [input, setInput] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  // Penanganan error terpusat: kalau sesi habis, user diarahkan ke login
+  const handleApiError = useCallback(
+    (error) => {
+      if (!authService.isAuthenticated()) {
+        authService.logout();
+        navigate("/login");
+        return;
+      }
+
+      Swal.fire({
+        icon: "error",
+        title: "Terjadi Kesalahan",
+        text: error?.message || "Gagal menghubungi server.",
+        confirmButtonColor: "#3b82f6",
+      });
+    },
+    [navigate],
+  );
 
   const loadTasks = useCallback(async () => {
     setIsLoading(true);
@@ -15,11 +37,11 @@ const TodoList = () => {
       const response = await taskService.fetchTasks();
       setTasks(response.data || []);
     } catch (error) {
-      console.error("Gagal memuat tugas", error.message);
+      handleApiError(error);
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [handleApiError]);
 
   useEffect(() => {
     loadTasks();
@@ -53,22 +75,17 @@ const TodoList = () => {
       setInput("");
       await loadTasks();
     } catch (error) {
-      console.error("Gagal menyimpan:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Koneksi Terputus",
-        text: "Gagal menghubungi server.",
-        confirmButtonColor: "#3b82f6",
-      });
+      handleApiError(error);
     }
   };
 
   const handleToggleComplete = async (task) => {
     try {
+      // backend menyimpan status pada field "completed"
       await taskService.updateTask(task._id, { completed: !task.completed });
       await loadTasks();
     } catch (error) {
-      console.error("Gagal update status:", error);
+      handleApiError(error);
     }
   };
 
@@ -89,11 +106,11 @@ const TodoList = () => {
           await taskService.removeTask(id);
           await loadTasks();
         } catch (error) {
-          console.error("Error deleting task:", error.message);
+          handleApiError(error);
         }
       }
     },
-    [loadTasks],
+    [loadTasks, handleApiError],
   );
 
   const completedTasks = tasks.filter((t) => t.completed).length;
@@ -131,7 +148,7 @@ const TodoList = () => {
         </div>
       </header>
 
-      {/* Form Input - FIXED FOR MOBILE */}
+      {/* Form Input - Responsive */}
       <section className="relative mb-10 md:mb-14">
         <form onSubmit={handleSubmit} className="relative z-10 group">
           {editingId && (
@@ -194,7 +211,9 @@ const TodoList = () => {
           ) : (
             <div className="py-16 text-center bg-slate-50/50 rounded-[2.5rem] border-2 border-dashed border-slate-200">
               <div className="text-3xl mb-4">🎯</div>
-              <p className="text-slate-500 font-black">Semua tugas selesai!</p>
+              <p className="text-slate-500 font-black">
+                Belum ada tugas. Yuk mulai!
+              </p>
             </div>
           )}
         </div>

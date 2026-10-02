@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const AuthController = require("../controllers/AuthController");
+const authController = require("../controllers/AuthController");
 
-router.post("/register", AuthController.register);
-router.post("/login", AuthController.login);
+// Hubungkan jalur URL dengan method di AuthController
+router.post("/register", (req, res) => authController.register(req, res));
+router.post("/login", (req, res) => authController.login(req, res));
 
 module.exports = router;

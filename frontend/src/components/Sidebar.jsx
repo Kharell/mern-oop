@@ -1,7 +1,6 @@
-import React from "react";
 import Swal from "sweetalert2";
-import authService from "../services/authService";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Sidebar = ({
   activeMenu,
@@ -11,6 +10,7 @@ const Sidebar = ({
   setIsSidebarOpen,
 }) => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
     Swal.fire({
@@ -29,7 +29,7 @@ const Sidebar = ({
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        authService.logout();
+        logout();
         navigate("/login");
       }
     });
@@ -63,7 +63,7 @@ const Sidebar = ({
         className={`fixed inset-y-0 left-0 z-[70] w-72 bg-slate-900 text-slate-300 transform transition-all duration-500 ease-in-out md:relative md:translate-x-0 
         ${isSidebarOpen ? "translate-x-0 shadow-[20px_0_60px_-15px_rgba(0,0,0,0.5)]" : "-translate-x-full"} 
         h-screen flex flex-col border-r border-slate-800/50`}>
-        {/* Logo Section - Lebih Mewah */}
+        {/* Logo Section */}
         <div className="relative flex items-center h-24 px-8 border-b border-slate-800/50 bg-slate-900/80 backdrop-blur-md shrink-0">
           <div className="relative group">
             <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>

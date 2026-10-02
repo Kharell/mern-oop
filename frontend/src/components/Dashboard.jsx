@@ -1,31 +1,12 @@
-import React, { useState, useEffect } from "react";
-import authService from "../services/authService";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import Sidebar from "./Sidebar";
-import TodoList from "./todoList";
+import TodoList from "./TodoList";
 
 const Dashboard = () => {
   const [activeMenu, setActiveMenu] = useState("todo");
-  const [user, setUser] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const currentUser = authService.getCurrentUser();
-    if (!currentUser) {
-      navigate("/login");
-      return;
-    }
-    setUser(currentUser.user || currentUser);
-  }, [navigate]);
-
-  // Jika user belum dimuat, tampilkan loading layar penuh (opsional)
-  if (!user)
-    return (
-      <div className="h-screen w-full bg-slate-900 flex items-center justify-center text-white">
-        Memuat Dashboard...
-      </div>
-    );
+  const { user } = useAuth();
 
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden font-sans text-slate-900">
@@ -106,12 +87,8 @@ const Dashboard = () => {
                       Catatan Harian
                     </h3>
                     <p className="text-slate-500 mt-2 max-w-sm mx-auto font-medium">
-                      Fitur ini sedang dalam pengembangan untuk membantu Anda
-                      menyimpan ide-ide kreatif.
-                      <br />
-                      <br />
-                      <br />
-                      COMING ZOON
+                      API catatan harian sudah siap di backend. Tinggal
+                      menyambungkan tampilannya di tahap berikutnya.
                     </p>
                   </div>
                 )}
@@ -125,12 +102,8 @@ const Dashboard = () => {
                       Manajemen Keuangan
                     </h3>
                     <p className="text-slate-500 mt-2 max-w-sm mx-auto font-medium">
-                      Lacak pengeluaran dan pemasukan Anda secara otomatis di
-                      sini.
-                      <br />
-                      <br />
-                      <br />
-                      COMING ZOON
+                      API keuangan sudah siap di backend. Tinggal menyambungkan
+                      tampilannya di tahap berikutnya.
                     </p>
                   </div>
                 )}

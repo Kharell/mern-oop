@@ -14,20 +14,27 @@ const CatatanHarianSchema = new mongoose.Schema(
     },
     tag: {
       type: String,
-      default: "Umum", 
+      default: "Umum",
       trim: true,
     },
     warna: {
       type: String,
-      default: "#ffffff", 
+      default: "#ffffff",
     },
     pin: {
       type: Boolean,
-      default: false, 
+      default: false,
+    },
+    // relasi ke pemilik catatan
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
     },
   },
   {
-    timestamps: true, 
+    timestamps: true,
   },
 );
 

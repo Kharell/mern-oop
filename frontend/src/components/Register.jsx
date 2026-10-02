@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import authService from "../services/authService";
+import Swal from "sweetalert2";
+import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -10,19 +11,26 @@ const Register = () => {
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { register } = useAuth();
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setError("");
     try {
-      await authService.register(
-        formData.name,
-        formData.email,
-        formData.password,
-      );
-      alert("Registrasi Berhasil! Silakan Login.");
+      await register(formData.name, formData.email, formData.password);
+
+      // Notifikasi sukses (menggantikan alert bawaan browser)
+      Swal.fire({
+        icon: "success",
+        title: "Registrasi Berhasil!",
+        text: "Silakan login dengan akun Anda.",
+        confirmButtonColor: "#3b82f6",
+        customClass: { popup: "rounded-[2rem]" },
+      });
+
       navigate("/login"); // Pindah ke halaman login
     } catch (err) {
-      setError(err.response?.data?.message || "Registrasi Gagal");
+      setError(err?.message || "Registrasi Gagal");
     }
   };
 
@@ -43,6 +51,7 @@ const Register = () => {
             type="text"
             placeholder="Nama Lengkap"
             className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
+            value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             required
           />
@@ -50,18 +59,19 @@ const Register = () => {
             type="email"
             placeholder="Email"
             className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             required
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Password (min. 6 karakter)"
             className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
+            value={formData.password}
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
             }
+            minLength={6}
             required
           />
           <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition duration-300 shadow-lg">
